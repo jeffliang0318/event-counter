@@ -4,8 +4,11 @@ const TIME_WINDOW_UPPER_BOUND = 300;
 
 export class EventCounter {
     constructor(name = 'event') {
+        if (typeof name !== "string") {
+            throw new TypeError("Invalid name, should be string.")
+        }
         this.name = name;
-        this.timestamps = [];
+        this.eventTimestamps = [];
         this.timeUpperbond = TIME_WINDOW_UPPER_BOUND;
     }
 
@@ -14,8 +17,10 @@ export class EventCounter {
      * @returns {String} notify client an event just happened.
      */
     incrementCount () {
+        // We can save some memory by clean the eventTimeStamps
+        // everytime we increment the count
         this.#cleanExpiredTimestamps();
-        this.timestamps.push(new Date().getTime());
+        this.eventTimestamps.push(new Date().getTime());
         return `${this.name} just happened`;
     }
 
@@ -39,15 +44,15 @@ export class EventCounter {
      */
     #getRecentEvents (timeWindow) {
         const currTime = new Date().getTime();
-
-        return this.timestamps.filter( time => currTime - time < timeWindow * 1000);
+        // return a new array but not mutate the eventTimestamps
+        return this.eventTimestamps.filter( time => currTime - time < timeWindow * 1000);
     }
 
     /**
      * Return number of events happened in timewindow
      */
     #cleanExpiredTimestamps () {
-        this.timestamps = this.#getRecentEvents();
+        this.eventTimestamps = this.#getRecentEvents();
     }
 
     /**
