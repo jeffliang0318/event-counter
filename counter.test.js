@@ -32,7 +32,6 @@ test('The time period will be upper bond if user-specified amount greater than u
 
 test('getCount should throw an error if not take number type argument', () => {
   const counter = new EventCounter("page load")
-  counter.timestamps = [new Date().getTime() - 100 * 1000]
   expect(() => {
     counter.getCount("test");
     }).toThrow(TypeError);
@@ -54,6 +53,5 @@ test('event count should increment by 1 when addcount.', () => {
 
 test('Client should be notified when event count inc', () => {
   const counter = new EventCounter('click')
-  counter.addCount()
   expect(counter.addCount()).toBe('click just happened');
 });
