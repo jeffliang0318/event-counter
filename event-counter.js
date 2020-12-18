@@ -1,40 +1,66 @@
 // default upper bound for time window
 const TIME_WINDOW_UPPER_BOUND = 300;
 
+
 export class EventCounter {
-    constructor(name) {
+    constructor(name = 'event') {
         this.name = name;
         this.timestamps = [];
         this.timeUpperbond = TIME_WINDOW_UPPER_BOUND;
     }
 
-    addCount () {
-        this.#cleanTimestamp();
+    /**
+     * Add an event timestamp and notify client
+     * @returns {String} notify client an event just happened.
+     */
+    incrementCount () {
+        this.#cleanExpiredTimestamps();
         this.timestamps.push(new Date().getTime());
         return `${this.name} just happened`;
     }
 
-    getCount (timeWindow) {
-        if (timeWindow && typeof timeWindow !== "number") {
-            throw new TypeError(`getCount only takes number not ${typeof timeWindow}`);
-        };
+    /**
+     * Return number of events happened in timewindow
+     * @param {Number} timeWindow - client specified amount of time
+     * @returns {Number} the length of the filterd timestamp array 
+     */
+    getCount (timeWindow = this.timeUpperbond) {
+        this.#isTimeWindowValid(timeWindow)
+        const strictTimeWindow = timeWindow > this.timeUpperbond ? this.timeUpperbond : timeWindow;
 
-        return this.#getRecentEvents(timeWindow).length;
+        return this.#getRecentEvents(strictTimeWindow).length;
     }
     
     //private methods
- 
-    #getRecentEvents (timeWindow = this.timeUpperbond) {
+     /**
+     * Return number of events happened in timewindow
+     * @param {Number} timeWindow - client specified amount of time
+     * @returns {Number} the length of the filterd timestamp array
+     */
+    #getRecentEvents (timeWindow) {
         const currTime = new Date().getTime();
-        let strictTimeWindow = timeWindow;
-        // incase user enter one more zero
-        if (timeWindow > this.timeUpperbond) {
-            strictTimeWindow = this.timeUpperbond;
-        };
-        return this.timestamps.filter( time => currTime - time < strictTimeWindow * 1000);
+
+        return this.timestamps.filter( time => currTime - time < timeWindow * 1000);
     }
 
-    #cleanTimestamp () {
+    /**
+     * Return number of events happened in timewindow
+     */
+    #cleanExpiredTimestamps () {
         this.timestamps = this.#getRecentEvents();
+    }
+
+    /**
+     * Throw an error if timeWindow is not a number greater than 0
+     */
+    #isTimeWindowValid (timeWindow) {
+        if (typeof timeWindow !== "number" || isNaN(timeWindow)) {
+            const wrongType = typeof timeWindow === "number" ? "NaN" : typeof timeWindow
+
+            throw new TypeError(`getCount only takes number type but ${wrongType}`);
+        };
+        if (timeWindow <= 0) {
+            throw new RangeError(`getCount only takes number greater than 0 but ${timeWindow}`);
+        }
     }
 };
