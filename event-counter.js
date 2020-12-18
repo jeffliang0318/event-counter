@@ -15,7 +15,7 @@ export class EventCounter {
     /**
      * Add an event timestamp and notify client
      * @returns {String} notify client an event just happened.
-     */
+    */
     incrementCount () {
         // We can save some memory by clean the eventTimeStamps
         // everytime we increment the count
@@ -28,21 +28,22 @@ export class EventCounter {
      * Return number of events happened in timewindow
      * @param {Number} timeWindow - client specified amount of time
      * @returns {Number} the length of the filterd timestamp array 
-     */
+    */
     getCount (timeWindow = this.timeUpperbond) {
         this.#isTimeWindowValid(timeWindow)
         const strictTimeWindow = timeWindow > this.timeUpperbond ? this.timeUpperbond : timeWindow;
-
+        this.#cleanExpiredTimestamps();
         return this.#getRecentEvents(strictTimeWindow).length;
     }
     
     //private methods
-     /**
+    // --------------
+    /**
      * Return number of events happened in timewindow
      * @param {Number} timeWindow - client specified amount of time
      * @returns {Number} the length of the filterd timestamp array
-     */
-    #getRecentEvents (timeWindow) {
+    */
+    #getRecentEvents (timeWindow = this.timeUpperbond) {
         const currTime = new Date().getTime();
         // return a new array but not mutate the eventTimestamps
         return this.eventTimestamps.filter( time => currTime - time < timeWindow * 1000);
