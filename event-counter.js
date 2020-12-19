@@ -1,6 +1,5 @@
-// default upper bound for time window
+// default supported timespan upper bound to 5 minutes(300 seconds)
 const TIME_WINDOW_UPPER_BOUND = 300;
-
 
 export class EventCounter {
     constructor(name = 'event') {
@@ -17,7 +16,7 @@ export class EventCounter {
      * @returns {String} notify client an event just happened.
     */
     incrementCount () {
-        // We can save some memory by clean the eventTimeStamps
+        // We can save some memory by clean the outdated event(s) in eventTimestamps array
         // everytime we increment the count
         this.#cleanExpiredTimestamps();
         this.eventTimestamps.push(new Date().getTime());
@@ -26,7 +25,7 @@ export class EventCounter {
 
     /**
      * Return number of events happened in timewindow
-     * @param {Number} timeWindow - client specified amount of time
+     * @param {Number} timeWindow - client specified amount of time default to TIME_WINDOW_UPPER_BOUND
      * @returns {Number} the length of the filterd timestamp array 
     */
     getCount (timeWindow = this.timeUpperbond) {
@@ -39,8 +38,8 @@ export class EventCounter {
     //private methods
     // --------------
     /**
-     * Return number of events happened in timewindow
-     * @param {Number} timeWindow - client specified amount of time
+     * Return number of events happened in timewindow but NOT mutate the timestamp array
+     * @param {Number} timeWindow - client specified amount of time, default to TIME_WINDOW_UPPER_BOUND
      * @returns {Number} the length of the filterd timestamp array
     */
     #getRecentEvents (timeWindow = this.timeUpperbond) {
@@ -50,7 +49,7 @@ export class EventCounter {
     }
 
     /**
-     * Return number of events happened in timewindow
+     * Update eventTimestamps by romeve the event timestamp(s) happened 300 seconds ago and 
      */
     #cleanExpiredTimestamps () {
         this.eventTimestamps = this.#getRecentEvents();
