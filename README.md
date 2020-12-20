@@ -8,32 +8,30 @@ To use EventCounter library
 import { EventCounter } from './event-counter';
 ```
 
-### EventCounter
-#### Syntax
+### Syntax
+#### EventCounter
 ```
 const eventCounter = new EventCounter(eventName)
 ```
-#### Parameter Value
+##### Parameter Value
 | Parameter |Description |
 | ------------- | ------------- |
 | eventName: String  | Optional. The name of the event counter. Defaults to `event` |
 
-### getCount
-#### Syntax
+#### getCount
 ```
 eventCounter.getCount(timeWindow)
 ```
-#### Parameter Value
+##### Parameter Value
 | Parameter  | Description |
 | ------------- | ------------- |
 | timeWindow: Number | Optional. The amount of time until current time in seconds. Defaults to `300`|
 
-### incrementCount
-#### Syntax
+#### incrementCount
 ```
 eventCounter.incrementCount()
 ```
-#### Parameter Value
+##### Parameter Value
 None
 
 ## Usage 
