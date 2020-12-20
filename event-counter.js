@@ -1,5 +1,5 @@
 // default supported timespan upper bound to 5 minutes(300 seconds)
-const TIME_WINDOW_UPPER_BOUND = 300;
+export const TIME_WINDOW_UPPER_BOUND = 300;
 
 export class EventCounter {
   constructor(name = "event") {
@@ -30,11 +30,9 @@ export class EventCounter {
    */
   getCount(timeWindow = this.timeUpperbond) {
     this.isTimeWindowValid(timeWindow);
-    const strictTimeWindow =
-      timeWindow > this.timeUpperbond ? this.timeUpperbond : timeWindow;
-    const count = this.getRecentEvents(strictTimeWindow).length;
+    const count = this.getRecentEvents(timeWindow).length;
     console.log(
-      `${this.name} happened ${count} times in ${strictTimeWindow} seconds`
+      `${this.name} happened ${count} times in ${timeWindow} seconds`
     );
     return count;
   }
@@ -62,7 +60,11 @@ export class EventCounter {
   }
 
   /**
-   * Throw an error if timeWindow is not a number greater than 0
+   * Throw an error if timeWindow
+   * 1. not a number
+   * 2. isNaN
+   * 3. less or equal than 0
+   * 4. greater than TIME_WINDOW_UPPER_BOUND
    */
   isTimeWindowValid(timeWindow) {
     if (typeof timeWindow !== "number" || isNaN(timeWindow)) {
@@ -71,9 +73,9 @@ export class EventCounter {
 
       throw new TypeError(`getCount only takes number type but ${wrongType}`);
     }
-    if (timeWindow <= 0) {
+    if (timeWindow <= 0 || timeWindow > TIME_WINDOW_UPPER_BOUND) {
       throw new RangeError(
-        `getCount only takes number greater than 0 but ${timeWindow}`
+        `getCount only takes number greater than 0 and less than ${TIME_WINDOW_UPPER_BOUND} but got ${timeWindow}`
       );
     }
   }
