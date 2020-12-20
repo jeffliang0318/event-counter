@@ -1,4 +1,4 @@
-import { EventCounter } from './event-counter';
+import { EventCounter, TIME_WINDOW_UPPER_BOUND } from './event-counter';
 
 // getCount without client-specified time
 // --------------------------------------
@@ -34,15 +34,6 @@ test('getCount should have option to take client-specified amount of time and re
   expect(counter.getCount(1)).toBe(0);
 });
 
-test('getCount should only return the events count in the supported timespan(300 seconds by default).', () => {
-  const counter = new EventCounter();
-  const fiveMinuteEvent = new Date().getTime() - 300 * 1000;
-  
-  counter.eventTimestamps = [fiveMinuteEvent];
-
-  expect(counter.getCount(301)).toBe(0);
-});
-
 test('getCount should NOT filter out the events when taking client-specified amount of time.', () => {
   const counter = new EventCounter();
   const fourMinuteEvent = new Date().getTime() - 240 * 1000;
@@ -72,20 +63,20 @@ test('getCount should throw an RangeError when timewindow less than 0.', () => {
   }).toThrow(RangeError);
 });
 
-test('getCount should throw an error and let client know timewindow should greater than 0', () => {
+test('getCount should throw an RangeError when timewindow greater than TIME_WINDOW_UPPER_BOUND.', () => {
   const counter = new EventCounter();
 
   expect(() => {
-    counter.getCount(0);
-  }).toThrow(new Error('getCount only takes number greater than 0 but 0'));
+    counter.getCount(TIME_WINDOW_UPPER_BOUND + 1);
+  }).toThrow(RangeError);
 });
 
-test('getCount should throw an error and let client know timewindow should greater than 0, but -10', () => {
+test('getCount should throw an error and let client know the timewindow is out of range', () => {
   const counter = new EventCounter();
   
   expect(() => {
     counter.getCount(-10);
-  }).toThrow(new Error('getCount only takes number greater than 0 but -10'));
+  }).toThrow(new Error(`getCount only takes number greater than 0 and less than ${TIME_WINDOW_UPPER_BOUND} but got -10`));
 });
 
 // worng type of arg for getCount
