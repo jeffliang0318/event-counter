@@ -64,3 +64,7 @@ To run the test
 ```
 npm test
 ```
+
+Try this markdown:
+
+![test] (./test.png)
