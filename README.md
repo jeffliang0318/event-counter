@@ -67,4 +67,4 @@ npm test
 
 Try this markdown:
 
-![test] (./test.png)
+![alt test](test.png)
