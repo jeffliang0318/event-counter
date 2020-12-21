@@ -14,26 +14,29 @@ import { EventCounter } from './event-counter';
 const eventCounter = new EventCounter(eventName)
 ```
 ##### Parameter Value
-| Parameter |Description |
+| Parameter | Description |
 | ------------- | ------------- |
-| eventName: String  | Optional. The name of the event counter. Defaults to `event` |
+| eventName: `String`  | Optional. The name of the event counter. Defaults to `event`. |
 
 #### getCount
 ```
 eventCounter.getCount(timeWindow)
 ```
-##### Parameter Value
-| Parameter  | Description |
-| ------------- | ------------- |
-| timeWindow: Number | Optional. The amount of time until current time in seconds. Defaults to `300`|
+##### Parameter and Return value
+| Parameter  | Description | Return value |
+| ------------- | ------------- | ------- |
+| timeWindow: `Number` | Optional. The amount of time until current time in seconds. Defaults to `300`| `Number`, the number of events that happened in timeWindow. |
+
 
 #### incrementCount
 ```
 eventCounter.incrementCount()
 ```
 
-##### Parameter Value
-None
+##### Parameter and Return value
+| Parameter  | Description | Return value |
+| ------------- | ------------- | ------- |
+| None | None | `String`, a message to notify user an event just happened. |
 
 ## Usage 
 ```javascript
@@ -66,7 +69,7 @@ searchCounter.incrementCount();                         // return "search reques
 ```
 
 ## Test
-All the test cases in `counter.test.js`
+All test cases in `counter.test.js`
 
 To run the test
 
