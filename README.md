@@ -55,3 +55,12 @@ eventCounter.getCount()                     // return 0
 const searchCounter = EventCounter('search request');   //
 searchCounter.incrementCount();                         // return "search request just happened"
 ```
+
+## Test
+All the test cases in `counter.test.js`
+
+To run the test
+
+```
+npm test
+```
