@@ -12,7 +12,7 @@ export class EventCounter {
   }
 
   /**
-   * Add an event timestamp and notify client
+   * Add an event timestamp to this.eventTimestamps and notify client
    * @returns {String} notify client an event just happened.
    */
   incrementCount() {
@@ -24,9 +24,9 @@ export class EventCounter {
   }
 
   /**
-   * Return number of events happened in timewindow
-   * @param {Number} timeWindow - client specified amount of time default to TIME_WINDOW_UPPER_BOUND
-   * @returns {Number} the length of the filterd timestamp array
+   * Return number of events happened in a timewindow
+   * @param {Number} timeWindow - client specified amount of time, defaults to TIME_WINDOW_UPPER_BOUND
+   * @returns {Number} the length of a new filterd timestamp array
    */
   getCount(timeWindow = this.timeUpperbond) {
     this.isTimeWindowValid(timeWindow);
@@ -53,7 +53,7 @@ export class EventCounter {
   }
 
   /**
-   * Update eventTimestamps by romeve the event timestamp(s) happened 300 seconds ago and
+   * Update this.eventTimestamps by romeve the event timestamp(s) happened 300 seconds ago
    */
   cleanExpiredTimestamps() {
     this.eventTimestamps = this.getRecentEvents();

@@ -65,6 +65,4 @@ To run the test
 npm test
 ```
 
-Try this markdown:
-
 ![alt test](test.png)

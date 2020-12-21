@@ -2,22 +2,22 @@ import { EventCounter, TIME_WINDOW_UPPER_BOUND } from './event-counter';
 
 // getCount without client-specified time
 // --------------------------------------
-test('Count should start with 0.', () => {
+test('Event count should start with 0.', () => {
   const counter = new EventCounter();
   expect(counter.getCount()).toBe(0);
 });
 
-test('Count should start with 0.', () => {
+test('getCount should log out human readable detail.', () => {
   const counter = new EventCounter();
   const spy = jest.spyOn(console, 'log');
   counter.getCount();
   expect(spy.mock.calls[0]).toEqual(['event happened 0 times in 300 seconds']);
 });
 
-test('getCount should only filter out the event(s) happened 5 mins before if time is not been specified.', () => {
+test('getCount should filter out the event(s) happened TIME_WINDOW_UPPER_BOUND ago.', () => {
   const counter = new EventCounter();
   const oneMinuteEvent = new Date().getTime() - 60 * 1000;
-  const fiveMinuteEvent = new Date().getTime() - 300 * 1000;
+  const fiveMinuteEvent = new Date().getTime() - TIME_WINDOW_UPPER_BOUND * 1000;
   counter.eventTimestamps = [oneMinuteEvent, fiveMinuteEvent];
 
   expect(counter.getCount()).toBe(1);
