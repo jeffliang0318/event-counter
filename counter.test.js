@@ -14,13 +14,22 @@ test('getCount should log out human readable detail.', () => {
   expect(spy.mock.calls[0]).toEqual(['event happened 0 times in 300 seconds']);
 });
 
+test('getCount should NOT filter out the event(s) happened right on TIME_WINDOW_UPPER_BOUND.', () => {
+  const counter = new EventCounter();
+  const fiveMinuteEvent = new Date().getTime() - TIME_WINDOW_UPPER_BOUND * 1000;
+  counter.eventTimestamps = [fiveMinuteEvent];
+
+  expect(counter.getCount()).toBe(1);
+});
+
 test('getCount should filter out the event(s) happened TIME_WINDOW_UPPER_BOUND ago.', () => {
   const counter = new EventCounter();
   const oneMinuteEvent = new Date().getTime() - 60 * 1000;
   const fiveMinuteEvent = new Date().getTime() - TIME_WINDOW_UPPER_BOUND * 1000;
-  counter.eventTimestamps = [oneMinuteEvent, fiveMinuteEvent];
+  const invalidEvent = new Date().getTime() - (TIME_WINDOW_UPPER_BOUND * 1000 + 1);
+  counter.eventTimestamps = [invalidEvent, oneMinuteEvent, fiveMinuteEvent];
 
-  expect(counter.getCount()).toBe(1);
+  expect(counter.getCount()).toBe(2);
 });
 
 // getCount with client-specified time

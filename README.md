@@ -31,25 +31,34 @@ eventCounter.getCount(timeWindow)
 ```
 eventCounter.incrementCount()
 ```
+
 ##### Parameter Value
 None
 
 ## Usage 
 ```javascript
+// t = 0 (s), events = []
 const eventCounter = new EventCounter();    //
 eventCounter.getCount()                     // return 0
+
+// t = 0 (s), events = [T0]
 eventCounter.incrementCount();              // return "event just happened"
 eventCounter.getCount()                     // return 1
 
 // after 1 minute (60 seconds)
-// return events happened in 5 minute if not specify the time window
-eventCounter.getCount()                     // return 1                     
+// t = 60 (s),  events = [T0, T60]
+eventCounter.incrementCount();              // return "event just happened"
 
-// get the number of the events happened in 30 seconds
-eventCounter.getCount(30)                   // return 0
+// return the number of events that happened in 30 seconds
+eventCounter.getCount(30)                   // return 1
 
-// after 5 minutes(300 seconds)
-eventCounter.getCount()                     // return 0                     
+// after 5 minutes (300 seconds)
+// t = 300 (s), events = [T0, T60]
+eventCounter.getCount()                     // return 2                    
+
+// after 5 minutes and 1 second (301 seconds)
+// t = 301 (s), events = [T60]
+eventCounter.getCount()                     // return 1
 
 // Option to name the eventcounter
 const searchCounter = EventCounter('search request');   //

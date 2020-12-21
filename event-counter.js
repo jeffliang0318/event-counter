@@ -48,7 +48,7 @@ export class EventCounter {
     const currTime = new Date().getTime();
     // return a new array but not mutate the eventTimestamps
     return this.eventTimestamps.filter(
-      (time) => currTime - time < timeWindow * 1000
+      (time) => currTime - time <=timeWindow * 1000
     );
   }
 
