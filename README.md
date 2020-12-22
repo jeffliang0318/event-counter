@@ -25,7 +25,7 @@ eventCounter.getCount(timeWindow)
 ##### Parameter and Return value
 | Parameter  | Description | Return value |
 | ------------- | ------------- | ------- |
-| timeWindow: `Number` | Optional. The amount of time until current time in seconds. Defaults to `300`| `Number`, the number of events that happened in timeWindow. |
+| timeWindow: `Number` | Optional. The timespan in seconds. Defaults to `TIME_WINDOW_UPPER_BOUND` | `Number`, the number of events that happened in timeWindow. |
 
 
 #### incrementCount
@@ -66,6 +66,14 @@ eventCounter.getCount()                     // return 1
 // Option to name the eventcounter
 const searchCounter = EventCounter('search request');   //
 searchCounter.incrementCount();                         // return "search request just happened"
+```
+
+## Supported timespan upper bound
+
+`TIME_WINDOW_UPPER_BOUND` can be updated in `event-counter.js`, defaults to 300 (seconds)
+
+```javascript
+export const TIME_WINDOW_UPPER_BOUND = 300;
 ```
 
 ## Test
