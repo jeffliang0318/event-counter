@@ -10,7 +10,7 @@ import { EventCounter } from './event-counter';
 
 ### Syntax
 #### EventCounter
-```
+```javascript
 const eventCounter = new EventCounter(eventName)
 ```
 ##### Parameter Value
@@ -19,7 +19,7 @@ const eventCounter = new EventCounter(eventName)
 | eventName: `String`  | Optional. The name of the event counter. Defaults to `event`. |
 
 #### getCount
-```
+```javascript
 eventCounter.getCount(timeWindow)
 ```
 ##### Parameter and Return value
@@ -29,7 +29,7 @@ eventCounter.getCount(timeWindow)
 
 
 #### incrementCount
-```
+```javascript
 eventCounter.incrementCount()
 ```
 
