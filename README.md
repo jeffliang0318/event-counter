@@ -1,6 +1,6 @@
 # event-counter
 
-To use EventCounter library
+A small library which helps to track the number of events that happened during a specified window of time.
 
 ## Import
 
