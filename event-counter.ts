@@ -2,6 +2,10 @@
 export const TIME_WINDOW_UPPER_BOUND = 300;
 
 export class EventCounter {
+  name: string;
+  eventTimestamps: number[];
+  timeUpperbond: number;
+
   constructor(name = "event") {
     if (typeof name !== "string") {
       throw new TypeError("Invalid name, should be string.");
@@ -13,9 +17,9 @@ export class EventCounter {
 
   /**
    * Add an event timestamp to this.eventTimestamps and notify client
-   * @returns {String} notify client an event just happened.
+   * @returns {string} notify client an event just happened.
    */
-  incrementCount() {
+  incrementCount(): string {
     // We can save some memory by clean the outdated event(s) in eventTimestamps array
     // everytime we increment the count
     this.cleanExpiredTimestamps();
@@ -25,10 +29,10 @@ export class EventCounter {
 
   /**
    * Return number of events happened in a timewindow
-   * @param {Number} timeWindow - client specified amount of time, defaults to TIME_WINDOW_UPPER_BOUND
-   * @returns {Number} the length of a new filterd timestamp array
+   * @param {number} timeWindow - client specified amount of time, defaults to TIME_WINDOW_UPPER_BOUND
+   * @returns {number} the length of a new filterd timestamp array
    */
-  getCount(timeWindow = this.timeUpperbond) {
+  getCount(timeWindow: number = this.timeUpperbond): number {
     this.isTimeWindowValid(timeWindow);
     const count = this.getRecentEvents(timeWindow).length;
     console.log(
@@ -41,10 +45,10 @@ export class EventCounter {
   // --------------
   /**
    * Return number of events happened in timewindow but NOT mutate the timestamp array
-   * @param {Number} timeWindow - client specified amount of time, default to TIME_WINDOW_UPPER_BOUND
-   * @returns {Number} the length of the filterd timestamp array
+   * @param {number} timeWindow - client specified amount of time, default to TIME_WINDOW_UPPER_BOUND
+   * @returns {number[]} the length of the filterd timestamp array
    */
-  getRecentEvents(timeWindow = this.timeUpperbond) {
+  getRecentEvents(timeWindow: number = this.timeUpperbond): number[] {
     const currTime = new Date().getTime();
     // return a new array but not mutate the eventTimestamps
     return this.eventTimestamps.filter(
@@ -55,7 +59,7 @@ export class EventCounter {
   /**
    * Update this.eventTimestamps by romeve the event timestamp(s) happened 300 seconds ago
    */
-  cleanExpiredTimestamps() {
+  cleanExpiredTimestamps(): void {
     this.eventTimestamps = this.getRecentEvents();
   }
 
@@ -66,7 +70,7 @@ export class EventCounter {
    * 3. less or equal than 0
    * 4. greater than TIME_WINDOW_UPPER_BOUND
    */
-  isTimeWindowValid(timeWindow) {
+  isTimeWindowValid(timeWindow: number): void {
     if (typeof timeWindow !== "number" || isNaN(timeWindow)) {
       const wrongType =
         typeof timeWindow === "number" ? "NaN" : typeof timeWindow;

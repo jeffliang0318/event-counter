@@ -90,13 +90,13 @@ test('getCount should throw an error and let client know the timewindow is out o
 
 // worng type of arg for getCount
 // ------------------------------
-test('getCount should throw an TypeError when taking string type arg.', () => {
-  const counter = new EventCounter();
+// test('getCount should throw an TypeError when taking string type arg.', () => {
+//   const counter = new EventCounter();
 
-  expect(() => {
-    counter.getCount("test");
-  }).toThrow(TypeError);
-});
+//   expect(() => {
+//     counter.getCount("test");
+//   }).toThrow(TypeError);
+// });
 
 test('getCount should throw an TypeError when taking NaN type arg.', () => {
   const counter = new EventCounter();
@@ -114,14 +114,14 @@ test('getCount should throw an TypeError when taking null type arg.', () => {
   }).toThrow(TypeError);
 });
 
-test('getCount should throw an error and let client know the wrong type(string)', () => {
-  const counter = new EventCounter();
-  const badArg = "test";
+// test('getCount should throw an error and let client know the wrong type(string)', () => {
+//   const counter = new EventCounter();
+//   const badArg = "test";
 
-  expect(() => {
-    counter.getCount(badArg);
-  }).toThrow(new Error(`getCount only takes number type but ${typeof badArg}`));
-});
+//   expect(() => {
+//     counter.getCount(badArg);
+//   }).toThrow(new Error(`getCount only takes number type but ${typeof badArg}`));
+// });
 
 test('getCount should throw an error and let client know the wrong type(NaN)', () => {
   const counter = new EventCounter();
@@ -162,16 +162,16 @@ test('Client do not have to name the EventCounter.', () => {
   expect(counter.name).toBe('event');
 });
 
-test('Client should get an TypeError when create EventCounter with non-string type name.', () => {
+// test('Client should get an TypeError when create EventCounter with non-string type name.', () => {
   
-  expect(() => {
-    const counter = new EventCounter(99);
-  }).toThrow(TypeError);
-});
+//   expect(() => {
+//     const counter = new EventCounter(99);
+//   }).toThrow(TypeError);
+// });
 
-test('Client should get an TypeError when create EventCounter with non-string type name.', () => {
+// test('Client should get an TypeError when create EventCounter with non-string type name.', () => {
   
-  expect(() => {
-    const counter = new EventCounter(0);
-  }).toThrow(new Error("Invalid name, should be string."));
-});
+//   expect(() => {
+//     const counter = new EventCounter(0);
+//   }).toThrow(new Error("Invalid name, should be string."));
+// });
