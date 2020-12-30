@@ -42,13 +42,13 @@ export class EventCounter {
   /**
    * Return number of events happened in timewindow but NOT mutate the timestamp array
    * @param {Number} timeWindow - client specified amount of time, default to TIME_WINDOW_UPPER_BOUND
-   * @returns {Number} the length of the filterd timestamp array
+   * @returns {Number[]} the filtered timestamp array
    */
   getRecentEvents(timeWindow = this.timeUpperbond) {
     const currTime = new Date().getTime();
     // return a new array but not mutate the eventTimestamps
     return this.eventTimestamps.filter(
-      (time) => currTime - time <=timeWindow * 1000
+      (time) => currTime - time <= timeWindow * 1000
     );
   }
 
@@ -79,4 +79,4 @@ export class EventCounter {
       );
     }
   }
-};
+}
