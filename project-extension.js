@@ -21,11 +21,13 @@ PageCounter.getCount(1, "station2"); // return 523,318
 
 // stage 1
 // compress data count, timestamps as key and value: { eventName: # of count, total: total count for this second }
-// {
+// with the "total" key, we dont need to iterate to get the total count
+// eventCounts = {
 //    1609351117: { station1: 57300, station2: 39800, total: 93500 },
-//    1609312415: { station1: 75220, station2: 11803, total: 87023 }
+//    1609402415: { station1: 75220, station2: 11803, total: 87023 }
 // }
-// with the total key, we dont need to iterate to get the total count
+//
+// eventTimestamps = [1609351117, 1609402415], so we can do binary search for events in time window
 class EventCounter1 {
   constructor() {
     this.eventCounts = {};
@@ -113,7 +115,7 @@ class EventCounter1 {
 // store the event happened more than a week in a map, use sunday timestamp as key, and the value is the weekly events data
 // this.currentWeek use the same logic as stage 1
 // this.currentWeek = { eventCounts: {...}, eventTimestamps: [...] }
-// this.eventCounts store data in weeks
+// this.eventCounts store data by week
 // this.eventCounts =
 // {
 //   sunday1_Timestamp: {eventCounts: {...}, eventTimestamps: [...], total: 223,672,424,767}
