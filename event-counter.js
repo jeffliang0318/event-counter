@@ -7,6 +7,17 @@ export class EventCounter {
       throw new TypeError("Invalid name, should be string.");
     }
     this.name = name;
+    // this.eventTypes = new set ()
+    // a object with key: timestamp in seconds new Date().getTime() / 1000
+    // value: an object with event type as key and count as value
+    // { curr : { 1609351117: { event1: 500, event2: 700, total: 1200 }, 1609390118: { event1: 500, event2: 700 }, ...., 1609391118: { event1: 500, event2: 700 }, total: 0 }
+    //   1: {} // 3600 * 24 * 7, a week
+    //   ~~~
+    //   51: {}
+    // }
+    // {1609351117: {event1: 500, event2: 700, total: 1200}, 1609390118: {event1: 500, event2: 700}, ...., 1609391118: {event1: 500, event2: 700}}
+    this.eventsCounts = {}
+    // timeStamps of the events, keys of the events
     this.eventTimestamps = [];
     this.timeUpperbond = TIME_WINDOW_UPPER_BOUND;
   }
@@ -15,12 +26,23 @@ export class EventCounter {
    * Add an event timestamp to this.eventTimestamps and notify client
    * @returns {String} notify client an event just happened.
    */
-  incrementCount() {
+  incrementCount(eventType) {
     // We can save some memory by clean the outdated event(s) in eventTimestamps array
     // everytime we increment the count
     this.cleanExpiredTimestamps();
-    this.eventTimestamps.push(new Date().getTime());
-    return `${this.name} just happened`;
+    const now = new Date().getTime() / 1000 // in seconds
+    if (!this.eventsCounts[now]) {
+      this.eventTimestamps.push(now)     //track event timestamp
+      this.eventsCounts[now] = { total = 0 } // set default counts and total with timestamp as key
+    }
+    if (!this.eventsCounts[now][eventType]) {
+      this.eventsCounts[now][eventType] = 0
+    }
+
+    this.eventsCounts[now][eventType]++
+    this.eventsCounts[now].total++
+
+    return `${eventType} just increment by 1`;
   }
 
   /**
@@ -47,9 +69,21 @@ export class EventCounter {
   getRecentEvents(timeWindow = this.timeUpperbond) {
     const currTime = new Date().getTime();
     // return a new array but not mutate the eventTimestamps
-    return this.eventTimestamps.filter(
-      (time) => currTime - time <= timeWindow * 1000
-    );
+    // return this.eventTimestamps.filter(
+    //   (time) => currTime - time <= timeWindow * 1000
+    // );
+
+    // {1: {event1: 500, event2: 700}, 2: 500, ...., 300: 20}
+    // 15
+    // {245:20,..., 300: 20}
+    const now = Date.now() * 1000;
+    let totalCount = 0;
+    for (let index = now - timeWindow; index < now; index++) {
+      if (this.eventTimestamps[index]) {
+        totalCount += this.eventTimestamps[index];
+      }
+    }
+    return totalCount;
   }
 
   /**
