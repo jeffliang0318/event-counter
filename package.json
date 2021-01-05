@@ -4,7 +4,10 @@
   "description": "track the number of events that happened during a specified window of time.",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest --coverage"
+  },
+  "jest": {
+    "testResultsProcessor": "./node_modules/ts-jest/coverageprocessor.js"
   },
   "author": "Jeff Liang",
   "license": "ISC",
